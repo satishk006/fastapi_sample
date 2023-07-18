@@ -1,6 +1,7 @@
 from typing import Any
 
-from pydantic import BaseSettings, PostgresDsn, RedisDsn, root_validator
+from pydantic import PostgresDsn, RedisDsn, root_validator
+from pydantic_settings import BaseSettings
 
 from src.constants import Environment
 
@@ -13,13 +14,17 @@ class Config(BaseSettings):
 
     ENVIRONMENT: Environment = Environment.PRODUCTION
 
-    SENTRY_DSN: str | None
+    SENTRY_DSN: str | None = None
 
     CORS_ORIGINS: list[str]
-    CORS_ORIGINS_REGEX: str | None
+    CORS_ORIGINS_REGEX: str | None = None
     CORS_HEADERS: list[str]
 
     APP_VERSION: str = "1"
+
+    class Config:
+        env_file = ".env"
+        extra = "ignore"
 
     @root_validator(skip_on_failure=True)
     def validate_sentry_non_local(cls, data: dict[str, Any]) -> dict[str, Any]:

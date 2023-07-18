@@ -1,4 +1,4 @@
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 
 class AuthConfig(BaseSettings):
@@ -10,6 +10,10 @@ class AuthConfig(BaseSettings):
     REFRESH_TOKEN_EXP: int = 60 * 60 * 24 * 21  # 21 days
 
     SECURE_COOKIES: bool = True
+
+    class Config:
+        env_file = ".env"
+        extra = "ignore"
 
 
 auth_config = AuthConfig()

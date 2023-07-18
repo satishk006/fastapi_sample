@@ -7,7 +7,7 @@ from redis import asyncio as aioredis
 from starlette.middleware.cors import CORSMiddleware
 
 from src import redis
-from src.auth.router import router as auth_router
+from src.auth.routes import router as auth_router
 from src.config import app_configs, settings
 from src.database import database
 
@@ -16,7 +16,7 @@ from src.database import database
 async def lifespan(_application: FastAPI) -> AsyncGenerator:
     # Startup
     pool = aioredis.ConnectionPool.from_url(
-        settings.REDIS_URL, max_connections=10, decode_responses=True
+        str(settings.REDIS_URL), max_connections=10, decode_responses=True
     )
     redis.redis_client = aioredis.Redis(connection_pool=pool)
     await database.connect()

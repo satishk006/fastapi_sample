@@ -18,7 +18,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from src.config import settings
 from src.constants import DB_NAMING_CONVENTION
 
-DATABASE_URL = settings.DATABASE_URL
+DATABASE_URL = str(settings.DATABASE_URL)
 
 engine = create_engine(DATABASE_URL)
 metadata = MetaData(naming_convention=DB_NAMING_CONVENTION)
